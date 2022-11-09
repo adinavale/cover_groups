@@ -4,6 +4,7 @@
 module dut(intf.idut ix);
 
 logic [3:0] old_state;
+logic       illegal_trans_1 = 0;
 
 default clocking @(posedge(ix.clk));
 
@@ -19,6 +20,7 @@ always @ (ix.state) begin
         assert (old_state == 0 || old_state == 3 || old_state == 5) 
         else begin
           $display("Error: Legal transition to state 1 can only occur from old_state 0, 3, or 5");
+          illegal_trans_1 = 1;
         end
       end
     2: begin
@@ -78,6 +80,16 @@ always @ (ix.state) begin
   endcase
 
   old_state = ix.state;
+end
+
+covergroup cg @ (posedge ix.clk) 
+  coverpoint illegal_trans_1;
+endgroup
+
+cg cg_inst;
+
+initial begin
+  cg_inst = new();
 end
 
 
