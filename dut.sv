@@ -82,7 +82,7 @@ always @ (ix.state) begin
   old_state = ix.state;
 end
 
-covergroup cg @ (posedge ix.clk) 
+covergroup cg @ (posedge ix.clk);
   coverpoint illegal_trans_1;
 endgroup
 
